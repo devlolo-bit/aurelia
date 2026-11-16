@@ -249,7 +249,7 @@ export default function Home() {
               </h1>
             </div>
             <div className="pt-[22px] md:pt-0">
-              <p className="mt-0 w-full max-w-none whitespace-nowrap text-[clamp(15px,4.4vw,18px)] font-normal leading-[1.4] text-white/90 md:mt-6 md:max-w-[460px] md:text-[19px] min-[1200px]:mt-8 min-[1200px]:max-w-[540px] min-[1200px]:text-[20px]">
+              <p className="mt-0 w-full max-w-none whitespace-nowrap text-[clamp(15px,4.4vw,18px)] font-normal leading-[1.4] text-white/90 md:mt-6 md:max-w-[460px] md:text-[19px] min-[1200px]:mt-8 min-[1200px]:max-w-[560px] min-[1200px]:text-[23px]">
                 Bancar as próprias escolhas é poder!
               </p>
               <div className="mt-7 min-[1200px]:mt-8">
