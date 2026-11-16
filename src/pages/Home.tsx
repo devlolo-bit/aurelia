@@ -249,13 +249,13 @@ export default function Home() {
               </h1>
             </div>
             <div className="pt-[22px] md:pt-0">
-              <p className="mt-0 w-full max-w-none whitespace-nowrap text-[clamp(15px,4.4vw,18px)] font-normal leading-[1.4] text-white/90 md:mt-6 md:max-w-[460px] md:text-[19px] min-[1200px]:mt-8 min-[1200px]:max-w-[560px] min-[1024px]:text-[23px] min-[1024px]:-translate-y-[10px]">
+              <p className="mt-0 w-full max-w-none whitespace-nowrap text-[clamp(15px,4.4vw,18px)] font-normal leading-[1.4] text-white/90 -translate-y-[10px] md:mt-6 md:max-w-[460px] md:text-[19px] min-[1200px]:mt-8 min-[1200px]:max-w-[560px] min-[1024px]:text-[23px] min-[1024px]:-translate-y-[10px]">
                 Bancar as próprias escolhas é poder!
               </p>
               <div className="mt-7 min-[1200px]:mt-8">
                 <AppCta className="h-[56px] w-full justify-center rounded-[18px] px-5 text-[16px] font-bold md:h-[52px] md:w-auto md:px-[26px] min-[1200px]:px-[26px]" />
               </div>
-              <p className="mx-auto mt-3 max-w-[300px] text-center text-[12px] leading-[1.4] text-white/75 md:hidden">
+              <p className="mx-auto mt-3 max-w-[300px] text-center text-[12px] leading-[1.4] text-white/60 md:hidden">
                 Para mulheres que desejam ampliar sua autonomia pessoal e profissional.
               </p>
             </div>
