@@ -101,6 +101,8 @@ function AppCta({ className = '' }: { className?: string }) {
   const [pulse, setPulse] = useState(false);
   const [hover, setHover] = useState(false);
   const on = pulse || hover;
+  const reduceMotion =
+    typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   function pulseCta(event: { preventDefault: () => void }) {
     event.preventDefault();
     setPulse(true);
@@ -119,11 +121,11 @@ function AppCta({ className = '' }: { className?: string }) {
       style={{
         backgroundColor: on ? '#69FF01' : '#1200E2',
         color: on ? '#1200E2' : '#FFFFFF',
-        animation: on ? 'amitse-zoom 0.9s ease-in-out' : undefined,
+        animation: on && !reduceMotion ? 'amitse-zoom 0.9s ease-in-out' : undefined,
       }}
-      className={`rounded-full px-8 transition-colors duration-300 ease-out active:scale-95 ${className}`}
+      className={`rounded-full px-8 transition-all duration-200 ease-out hover:-translate-y-0.5 active:scale-95 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b1a3f] motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${className}`}
     >
-      <a href="#aplicacao">
+      <a href="#aplicacao" className="inline-flex items-center gap-[11px]">
         <ArrowDown /> Faça a sua Aplicação
       </a>
     </Button>
@@ -210,7 +212,7 @@ export default function Home() {
   return (
     <div>
       <section
-        className="relative flex min-h-[calc(100svh-4rem)] items-end overflow-hidden text-primary-foreground"
+        className="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden text-white"
         style={{ backgroundColor: '#0b1a3f' }}
       >
         <div className="absolute inset-0 overflow-hidden">
@@ -229,19 +231,21 @@ export default function Home() {
             style={{ background: 'linear-gradient(to top, rgba(11,26,63,0.95) 0%, rgba(11,26,63,0) 40%)' }}
           />
         </div>
-        <div className="relative mx-auto w-full max-w-6xl px-6 pb-16 pt-32 sm:pb-24">
-          <p className="text-xs uppercase tracking-[0.28em] text-primary-foreground/75">
-            Mulher, você merece viver com mais
-          </p>
-          <h1 className="mt-3 max-w-4xl text-balance text-5xl font-semibold leading-[0.95] tracking-[-0.04em] sm:text-7xl lg:text-8xl">
-            Autonomia.
-          </h1>
-          <span aria-hidden="true" className="mt-6 block h-[2px] w-full max-w-3xl rounded-full bg-[#a4ff0e]" />
-          <p className="mt-6 max-w-md text-base leading-relaxed text-primary-foreground/80 sm:text-lg">
-            Afinal, seu maior poder é bancar as suas escolhas!
-          </p>
-          <div className="mt-8">
-            <AppCta />
+        <div className="relative mx-auto w-full max-w-[1280px] px-6 py-28 md:px-10 min-[1200px]:px-20">
+          <div className="max-w-[600px] min-[768px]:max-w-[500px] min-[1200px]:max-w-[600px]">
+            <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/90 min-[768px]:text-[13px] min-[768px]:tracking-[0.22em] min-[1200px]:text-[14px] min-[1200px]:tracking-[0.24em]">
+              Mulher, você merece viver com mais
+            </p>
+            <h1 className="mt-4 text-balance text-[clamp(46px,13vw,56px)] font-extrabold leading-[0.98] tracking-[-0.03em] text-white min-[768px]:mt-5 min-[768px]:text-[clamp(68px,8.5vw,80px)] min-[1200px]:whitespace-nowrap min-[1200px]:text-[clamp(88px,7.5vw,112px)]">
+              Autonomia.
+            </h1>
+            <span aria-hidden="true" className="mt-6 block h-[3px] w-12 rounded-full bg-[#a4ff0e] min-[768px]:mt-7 min-[768px]:w-14 min-[1200px]:w-16" />
+            <p className="mt-6 text-[18px] font-normal leading-[1.45] text-white/90 min-[768px]:mt-7 min-[768px]:max-w-[460px] min-[768px]:text-[20px] min-[1200px]:max-w-[520px] min-[1200px]:text-[22px]">
+              Afinal, seu maior poder é bancar as suas escolhas!
+            </p>
+            <div className="mt-8 min-[768px]:mt-9 min-[1200px]:mt-10">
+              <AppCta className="h-[54px] w-full justify-center text-[16px] font-semibold min-[768px]:w-auto min-[768px]:px-7 min-[1200px]:text-[17px]" />
+            </div>
           </div>
         </div>
       </section>
