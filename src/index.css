@@ -244,3 +244,12 @@
   html[data-fab-layer] header.sticky.top-0:not([data-fab-shell]) { display: none; }
   html[data-fab-layer] main:not([data-fab-shell]) { padding-bottom: env(safe-area-inset-bottom); }
 }
+
+
+/* Zoom do botão de aplicação ao toque/clique */
+@keyframes amitse-zoom {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+  70% { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}

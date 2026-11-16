@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowDown, ArrowUpRight, Check, Mail, Sparkles } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, Check, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 import { AppImage } from '@/components/ui/app-image';
@@ -97,6 +97,18 @@ function EssentialTile({ piece, index }: { piece: Piece; index: number }) {
 }
 
 export default function Home() {
+  const [ctaPulse, setCtaPulse] = useState(false);
+  const [ctaHover, setCtaHover] = useState(false);
+  const ctaOn = ctaPulse || ctaHover;
+  function pulseCta(event: { preventDefault: () => void }) {
+    event.preventDefault();
+    setCtaPulse(true);
+    window.setTimeout(() => {
+      setCtaPulse(false);
+      document.getElementById('aplicacao')?.scrollIntoView({ behavior: 'smooth' });
+    }, 900);
+  }
+
   const [current, setCurrent] = useState<CollectionRecord | null>(null);
   const [pieces, setPieces] = useState<Piece[]>([]);
   const [essentials, setEssentials] = useState<Piece[]>([]);
@@ -180,8 +192,24 @@ export default function Home() {
           <p className="mt-7 max-w-md text-base leading-relaxed text-primary-foreground/80 sm:text-lg">
             Uma Confraria para Mulheres Seletas e Ambiciosas construírem ativos exponenciais
           </p>
-          <div className="mt-16 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-primary-foreground/65">
-            <ArrowDown className="size-4" /> Faça a sua Aplicação
+          <div className="mt-16">
+            <Button
+              asChild
+              size="lg"
+              onClick={pulseCta}
+              onMouseEnter={() => setCtaHover(true)}
+              onMouseLeave={() => setCtaHover(false)}
+              style={{
+                backgroundColor: ctaOn ? '#69FF01' : '#1200E2',
+                color: ctaOn ? '#1200E2' : '#FFFFFF',
+                animation: ctaOn ? 'amitse-zoom 0.9s ease-in-out' : undefined,
+              }}
+              className="rounded-full px-8 transition-colors duration-300 ease-out active:scale-95"
+            >
+              <a href="#aplicacao">
+                <ArrowDown /> Faça a sua Aplicação
+              </a>
+            </Button>
           </div>
         </div>
       </section>
@@ -275,11 +303,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-primary py-20 text-primary-foreground sm:py-24">
+      <section id="aplicacao" className="bg-[#090079] py-20 text-white sm:py-24">
         <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <Sparkles className="size-5 text-primary-foreground/70" />
-            <h2 className="mt-5 max-w-lg text-3xl font-semibold tracking-tight sm:text-4xl">
+            <h2 className="max-w-lg text-3xl font-semibold tracking-tight sm:text-4xl">
               Um guarda-roupa mais quieto, no seu e-mail.
             </h2>
             <p className="mt-4 text-sm text-primary-foreground/70">

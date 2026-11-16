@@ -35,8 +35,8 @@ export default function AppShell() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-40 border-b bg-background/90 pt-[env(safe-area-inset-top)] backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <Link to="/" aria-label="Aurelia home">
-            <Logo className="h-7" variant="wordmark" name="Aurelia" />
+          <Link to="/" aria-label="Âmitse início">
+            <img src="/amitse-logo.png" alt="Âmitse" className="h-9 w-auto object-contain" />
           </Link>
           <Navigation />
           <Sheet>
@@ -61,10 +61,10 @@ export default function AppShell() {
       <main>
         <Outlet />
       </main>
-      <footer className="bg-primary py-12 text-primary-foreground">
+      <footer className="bg-[#090079] py-12 text-white">
         <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <Logo className="h-7" variant="wordmark" name="Aurelia" />
+            <img src="/amitse-icon.png" alt="Âmitse" className="h-14 w-auto object-contain" />
             <p className="mt-3 max-w-xs text-sm opacity-75">Roupa pensada, feita para durar.</p>
           </div>
           <Navigation />
