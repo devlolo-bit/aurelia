@@ -163,7 +163,7 @@ export default function Home() {
   return (
     <div>
       <section className="relative flex min-h-[calc(100svh-4rem)] items-end overflow-hidden bg-primary text-primary-foreground">
-        <AppImage
+        <AppImage src="https://cdn.fabapp.app/c968a120-f511-4f69-803b-8d9ddf3745b0/ad6d5517-e3ea-4bf7-b83e-c1f7d3e3fb6c/fdfaeaca-6145-4d83-90ba-19c7a3c8efff/Designer%20%2819%29.png"
           slot="hero-main"
           prompt="minimalist fashion editorial, quiet evergreen studio with garments on a rack, soft natural light, muted oat and charcoal palette, plain backdrop, no logos, no text, no close-up faces"
           alt="Editorial de moda sazonal da Aurelia"
@@ -172,16 +172,16 @@ export default function Home() {
         <div className="absolute inset-0 bg-primary/35" />
         <div className="relative mx-auto w-full max-w-6xl px-6 pb-16 pt-32 sm:pb-24">
           <p className="text-xs uppercase tracking-[0.28em] text-primary-foreground/75">
-            Aurelia · roupa pensada
+            Mulher, você merece viver com mais
           </p>
           <h1 className="mt-6 max-w-4xl text-balance text-5xl font-semibold leading-[0.95] tracking-[-0.04em] sm:text-7xl lg:text-8xl">
-            Feito para durar.
+            Autonomia.
           </h1>
           <p className="mt-7 max-w-md text-base leading-relaxed text-primary-foreground/80 sm:text-lg">
-            Peças atemporais, materiais rastreáveis e um jeito mais lento de se vestir.
+            Uma Confraria para Mulheres Seletas e Ambiciosas construírem ativos exponenciais
           </p>
           <div className="mt-16 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-primary-foreground/65">
-            <ArrowDown className="size-4" /> Ver a coleção
+            <ArrowDown className="size-4" /> Faça a sua Aplicação
           </div>
         </div>
       </section>
