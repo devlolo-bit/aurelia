@@ -249,12 +249,12 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="flex flex-col justify-between gap-8 border-b border-border pb-10 sm:flex-row sm:items-end">
             <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-foreground">Coleções sazonais</p>
+              <p className="text-xs uppercase tracking-[0.24em] text-foreground">O caminho para bancar as suas próprias escolhas é</p>
               {loading ? (
                 <Skeleton className="mt-4 h-12 w-72" />
               ) : (
                 <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
-                  {current?.name || 'Uma estação pensada'}
+                  Arquitetar a sua autonomia
                 </h2>
               )}
             </div>
