@@ -237,7 +237,7 @@ export default function Home() {
             style={{ background: 'linear-gradient(to bottom, rgba(12,25,57,0) 0%, rgba(12,25,57,0.65) 55%, #0c1939 100%)' }}
           />
         </div>
-        <div className="relative mx-auto w-full max-w-[1280px] px-6 pb-10 md:px-10 md:py-20 min-[1200px]:px-20 min-[1200px]:py-24">
+        <div className="relative mx-auto w-full max-w-[1280px] px-6 pb-[calc(40px+env(safe-area-inset-bottom))] md:px-10 md:py-20 min-[1200px]:px-20 min-[1200px]:py-24">
           <div className="max-w-none md:max-w-[500px] min-[1200px]:max-w-[560px]">
             <div className="flex min-h-[460px] flex-col justify-end md:block md:min-h-0">
               <span aria-hidden="true" className="block h-[3px] w-10 rounded-full bg-[#a4ff0e] md:w-12 min-[1200px]:w-14" />
@@ -248,7 +248,7 @@ export default function Home() {
                 Autonomia.
               </h1>
             </div>
-            <div className="pt-6 md:pt-0">
+            <div className="pt-[22px] md:pt-0">
               <p className="mt-0 max-w-[330px] text-[18px] font-normal leading-[1.4] text-white/90 md:mt-6 md:max-w-[460px] md:text-[19px] min-[1200px]:mt-8 min-[1200px]:max-w-[540px] min-[1200px]:text-[20px] min-[1200px]:whitespace-nowrap">
                 Afinal, seu maior poder é{' '}
                 <br className="min-[1200px]:hidden" />
