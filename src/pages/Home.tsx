@@ -231,20 +231,22 @@ export default function Home() {
             style={{ background: 'linear-gradient(to top, rgba(11,26,63,0.95) 0%, rgba(11,26,63,0) 40%)' }}
           />
         </div>
-        <div className="relative mx-auto w-full max-w-[1280px] px-6 py-28 md:px-10 min-[1200px]:px-20">
-          <div className="max-w-[600px] min-[768px]:max-w-[500px] min-[1200px]:max-w-[600px]">
-            <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/90 min-[768px]:text-[13px] min-[768px]:tracking-[0.22em] min-[1200px]:text-[14px] min-[1200px]:tracking-[0.24em]">
+        <div className="relative mx-auto w-full max-w-[1280px] px-6 py-16 md:px-10 md:py-20 min-[1200px]:px-20 min-[1200px]:py-24">
+          <div className="max-w-none md:max-w-[500px] min-[1200px]:max-w-[560px]">
+            <span aria-hidden="true" className="block h-[3px] w-10 rounded-full bg-[#a4ff0e] md:w-12 min-[1200px]:w-14" />
+            <p className="mt-3 text-[11px] font-semibold uppercase leading-[1.4] tracking-[0.12em] text-white/90 md:mt-[14px] md:text-[13px] md:tracking-[0.16em] min-[1200px]:mt-4 min-[1200px]:text-[14px] min-[1200px]:tracking-[0.22em]">
               Mulher, você merece viver com mais
             </p>
-            <h1 className="mt-4 text-balance text-[clamp(46px,13vw,56px)] font-extrabold leading-[0.98] tracking-[-0.03em] text-white min-[768px]:mt-5 min-[768px]:text-[clamp(68px,8.5vw,80px)] min-[1200px]:whitespace-nowrap min-[1200px]:text-[clamp(88px,7.5vw,112px)]">
+            <h1 className="mt-4 whitespace-nowrap text-[clamp(44px,13vw,52px)] font-extrabold leading-[0.98] tracking-[-0.035em] text-white md:mt-[18px] md:text-[clamp(64px,8vw,72px)] min-[1200px]:mt-5 min-[1200px]:text-[clamp(72px,6vw,92px)]">
               Autonomia.
             </h1>
-            <span aria-hidden="true" className="mt-6 block h-[3px] w-12 rounded-full bg-[#a4ff0e] min-[768px]:mt-7 min-[768px]:w-14 min-[1200px]:w-16" />
-            <p className="mt-6 text-[18px] font-normal leading-[1.45] text-white/90 min-[768px]:mt-7 min-[768px]:max-w-[460px] min-[768px]:text-[20px] min-[1200px]:max-w-[520px] min-[1200px]:text-[22px]">
-              Afinal, seu maior poder é bancar as suas escolhas!
+            <p className="mt-6 max-w-[330px] text-[18px] font-normal leading-[1.4] text-white/90 md:mt-6 md:max-w-[460px] md:text-[19px] min-[1200px]:mt-8 min-[1200px]:max-w-[540px] min-[1200px]:text-[20px] min-[1200px]:whitespace-nowrap">
+              Afinal, seu maior poder é{' '}
+              <br className="min-[1200px]:hidden" />
+              bancar as suas escolhas!
             </p>
-            <div className="mt-8 min-[768px]:mt-9 min-[1200px]:mt-10">
-              <AppCta className="h-[54px] w-full justify-center text-[16px] font-semibold min-[768px]:w-auto min-[768px]:px-7 min-[1200px]:text-[17px]" />
+            <div className="mt-7 md:mt-7 min-[1200px]:mt-8">
+              <AppCta className="h-[56px] w-full justify-center rounded-[18px] px-5 text-[16px] font-bold md:h-[52px] md:w-auto md:px-[26px] min-[1200px]:px-[26px]" />
             </div>
           </div>
         </div>
