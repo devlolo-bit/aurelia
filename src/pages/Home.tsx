@@ -1,70 +1,101 @@
-import { useEffect, useState } from 'react';
-import { ArrowDown, Check } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { ArrowDown, ArrowUpRight, Check, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
+import { AppImage } from '@/components/ui/app-image';
 import { amitseHero } from '@/lib/amitse-images';
-import {
-  photoApp,
-  photoBoard,
-  photoCar,
-  photoCircle,
-  photoDinner,
-  photoOds,
-  photoWine,
-} from '@/lib/amitse-images';
 import { Button } from '@/components/ui/button';
-import { collection } from '@/lib/fab-client';
+import { Card, CardContent } from '@/components/ui/card';
+import { Field } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Icon } from '@/components/ui/icon';
+import { collection, formatMoney, RichText } from '@/lib/fab-client';
 import { toast } from '@/components/ui/sonner';
 import { Reveal } from '@/components/ui/reveal';
 
-const STATS = [
-  {
-    value: '22%',
-    title: 'A desigualdade na remuneração',
-    text: 'No Brasil, as mulheres receberam, em média, 22% menos que os homens em 2024. Isso significa menor capacidade de acumular patrimônio, investir e construir independência financeira.',
-  },
-  {
-    value: '2,1x',
-    title: 'A sobrecarga do trabalho não remunerado',
-    text: 'Em 2022, mulheres brasileiras dedicaram 11,8% do dia a afazeres domésticos e cuidados não remunerados, contra 5,7% dos homens. Esse tempo também representa oportunidades profissionais e pessoais que podem ficar comprometidas.',
-  },
-  {
-    value: '31%',
-    title: 'As limitações à participação profissional',
-    text: 'Cerca de 31% das mulheres brasileiras que estavam fora da força de trabalho apontaram as responsabilidades domésticas e de cuidado como impedimento para trabalhar.',
-  },
-  {
-    value: '67%',
-    title: 'A desigualdade nas oportunidades econômicas',
-    text: 'Segundo o Banco Mundial, em 2026, as mulheres possuem, em média, 67% dos direitos legais econômicos reconhecidos aos homens no mundo. Isso mostra que a igualdade de oportunidades ainda está longe de ser alcançada.',
-  },
-];
+type CollectionRecord = {
+  id: string;
+  name: string;
+  season?: string;
+  year?: number;
+  tagline?: string;
+  description?: string;
+  cover?: string;
+  palette?: string;
+};
 
-const STEPS = [
-  { title: 'Cadastro', text: 'Você preenche nome, e-mail e WhatsApp e aceita a política de privacidade.' },
-  { title: 'Questionário', text: 'Respostas que nos ajudam a entender a sua trajetória e os seus objetivos.' },
-  { title: 'Análise', text: 'O time Âmitse avalia cada aplicação com atenção.' },
-  { title: 'Devolutiva por e-mail', text: 'Você recebe o resultado da análise no seu e-mail.' },
-  { title: 'Pagamento após aprovação', text: 'Nenhuma cobrança antes da aprovação. Os dados de pagamento chegam no e-mail de aprovação.' },
-  { title: 'Acesso ao app', text: 'Após o pagamento, você recebe as informações para baixar e criar a sua conta no app.' },
-  { title: 'Torne-se Membra', text: 'Entre para a comunidade Âmitse e comece a arquitetar a sua autonomia.' },
-];
+type Piece = {
+  id: string;
+  name: string;
+  collection: string;
+  summary?: string;
+  material?: string;
+  photo?: string;
+  price?: number;
+  category?: string;
+};
 
-const RECEIVES = [
-  { title: 'Educação', text: 'Conteúdo para construir autonomia pessoal e profissional.' },
-  { title: 'Acompanhamento', text: 'Orientação do time Âmitse ao longo da sua jornada.' },
-  { title: 'Pertencimento', text: 'Estar com a equipe Âmitse e com outras membras.' },
-  { title: 'Comunidade', text: 'Uma rede de mulheres que constroem ativos juntas.' },
-];
+type Pillar = {
+  id: string;
+  title: string;
+  description?: string;
+  icon?: string;
+  metric?: string;
+};
 
-const applySchema = z.object({
-  name: z.string().trim().min(3, 'Informe seu nome completo.'),
+const emailSchema = z.object({
   email: z.string().trim().email('Informe um e-mail válido.'),
-  whatsapp: z.string().trim().min(10, 'Informe um WhatsApp válido, com DDD.'),
-  consent: z.boolean().refine((value) => value, 'É preciso aceitar a política de privacidade.'),
 });
 
-type ApplyErrors = Partial<Record<'name' | 'email' | 'whatsapp' | 'consent', string>>;
+function PieceCard({ piece, index }: { piece: Piece; index: number }) {
+  return (
+    <Link to={`/collections/${piece.collection}`} className="group block">
+      <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+        <AppImage
+          slot={`home-piece-${piece.id || index}`}
+          prompt="minimalist fashion editorial, a single garment on a wooden rack, soft natural light, muted evergreen and oat palette, plain backdrop, no logos, no text, no close-up face"
+          src={piece.photo}
+          alt={piece.name}
+          className="transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+        />
+      </div>
+      <div className="border-b border-border py-4">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h3 className="font-medium tracking-tight transition-colors group-hover:text-primary">{piece.name}</h3>
+            <p className="mt-1 text-sm text-muted-foreground">{piece.summary || piece.material}</p>
+          </div>
+          {piece.price !== undefined && (
+            <span className="shrink-0 text-sm text-muted-foreground">{formatMoney(piece.price)}</span>
+          )}
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function EssentialTile({ piece, index }: { piece: Piece; index: number }) {
+  return (
+    <Link
+      to={`/collections/${piece.collection}`}
+      className="group relative block aspect-[4/5] overflow-hidden bg-muted"
+    >
+      <AppImage
+        slot={`home-essential-${piece.id || index}`}
+        prompt="minimalist fashion editorial still life of a timeless wardrobe essential, soft natural light, muted palette, plain backdrop, no logos, no text, no close-up face"
+        src={piece.photo}
+        alt={piece.name}
+        className="transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+      />
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-primary/90 via-primary/45 to-transparent p-5 pt-20 text-primary-foreground">
+        <p className="text-xs uppercase tracking-[0.2em] opacity-75">Essencial</p>
+        <h3 className="mt-2 text-lg font-medium">{piece.name}</h3>
+        <p className="mt-1 text-sm opacity-80">{piece.summary || piece.material}</p>
+      </div>
+    </Link>
+  );
+}
 
 export default function Home() {
   const [ctaPulse, setCtaPulse] = useState(false);
@@ -91,40 +122,62 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const [name, setName] = useState('');
+  const [current, setCurrent] = useState<CollectionRecord | null>(null);
+  const [pieces, setPieces] = useState<Piece[]>([]);
+  const [essentials, setEssentials] = useState<Piece[]>([]);
+  const [pillars, setPillars] = useState<Pillar[]>([]);
+  const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
-  const [whatsapp, setWhatsapp] = useState('');
-  const [consent, setConsent] = useState(false);
-  const [errors, setErrors] = useState<ApplyErrors>({});
+  const [emailError, setEmailError] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
 
-  async function submitApplication(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const result = applySchema.safeParse({ name, email, whatsapp, consent });
-    if (!result.success) {
-      const next: ApplyErrors = {};
-      for (const issue of result.error.issues) {
-        const key = issue.path[0] as keyof ApplyErrors;
-        if (!next[key]) next[key] = issue.message;
+  useEffect(() => {
+    async function load() {
+      try {
+        const [collections, pillarRows] = await Promise.all([
+          collection<CollectionRecord>('collection').list({
+            filter: { is_current: true },
+            sort: '-created_at',
+            limit: 1,
+          }),
+          collection<Pillar>('pillar').list({ sort: 'sort_order', limit: 6 }),
+        ]);
+        const active = collections[0] || null;
+        setCurrent(active);
+        setPillars(pillarRows);
+        if (active) {
+          const [seasonal, essentialRows] = await Promise.all([
+            collection<Piece>('piece').list({ filter: { collection: active.id }, sort: 'sort_order', limit: 3 }),
+            collection<Piece>('piece').list({ filter: { is_essential: true }, sort: 'sort_order', limit: 3 }),
+          ]);
+          setPieces(seasonal);
+          setEssentials(essentialRows);
+        }
+      } catch {
+        toast.error('Não foi possível carregar a coleção. Tente novamente.');
+      } finally {
+        setLoading(false);
       }
-      setErrors(next);
+    }
+    load();
+  }, []);
+
+  const description = useMemo(() => current?.description || '', [current]);
+
+  async function subscribe(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const result = emailSchema.safeParse({ email });
+    if (!result.success) {
+      setEmailError(result.error.issues[0]?.message || 'Informe um e-mail válido.');
       return;
     }
-    setErrors({});
+    setEmailError('');
     setSubmitting(true);
     try {
-      const now = new Date().toISOString();
-      // PENDENTE: criar o modelo "application" no Fabapp com os campos abaixo.
-      await collection('application').create({
-        name: result.data.name,
-        email: result.data.email,
-        whatsapp: result.data.whatsapp,
-        privacy_consent: true,
-        consent_at: now,
-        created_at: now,
-      });
-      setSent(true);
+      await collection('subscriber').create({ email: result.data.email, created_at: new Date().toISOString() });
+      setSubscribed(true);
+      setEmail('');
     } catch {
       toast.error('Algo deu errado. Tente novamente.');
     } finally {
@@ -132,14 +185,10 @@ export default function Home() {
     }
   }
 
-  const inputClass =
-    'w-full border-0 border-b border-[#090079]/40 bg-transparent px-0 pb-2 text-[#090079] placeholder:text-[#090079]/50 focus:border-[#1200E2] focus:outline-none';
-
   return (
     <div>
-      {/* 1. Hero */}
       <section
-        className="relative flex min-h-[calc(100svh-4rem)] items-end overflow-hidden text-white"
+        className="relative flex min-h-[calc(100svh-4rem)] items-end overflow-hidden text-primary-foreground"
         style={{ backgroundColor: '#0b1a3f' }}
       >
         <div className="absolute inset-0 overflow-hidden">
@@ -159,12 +208,14 @@ export default function Home() {
           />
         </div>
         <div className="relative mx-auto w-full max-w-6xl px-6 pb-16 pt-32 sm:pb-24">
-          <p className="text-xs uppercase tracking-[0.28em] text-white/75">Âmitse · A Arquiteta da Autonomia da Mulher</p>
-          <h1 className="mt-6 max-w-4xl text-balance text-5xl font-semibold leading-[0.95] tracking-[-0.04em] sm:text-7xl">
-            Mulher, torne-se Arquiteta da sua Autonomia
+          <p className="text-xs uppercase tracking-[0.28em] text-primary-foreground/75">
+            Mulher, você merece viver com mais
+          </p>
+          <h1 className="mt-6 max-w-4xl text-balance text-5xl font-semibold leading-[0.95] tracking-[-0.04em] sm:text-7xl lg:text-8xl">
+            Autonomia.
           </h1>
-          <p className="mt-7 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
-            Afinal, o seu maior poder é bancar suas próprias escolhas.
+          <p className="mt-7 max-w-md text-base leading-relaxed text-primary-foreground/80 sm:text-lg">
+            Afinal, seu maior poder é bancar as suas escolhas!
           </p>
           <div className="mt-16">
             <Button
@@ -181,264 +232,145 @@ export default function Home() {
               className="rounded-full px-8 transition-colors duration-300 ease-out active:scale-95"
             >
               <a href="#aplicacao">
-                <ArrowDown /> Quero Arquitetar a minha Autonomia
+                <ArrowDown /> Faça a sua Aplicação
               </a>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* 2. Por que arquitetar a própria autonomia */}
       <section className="py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-6">
-          <div className="max-w-3xl">
-            <p className="text-xs uppercase tracking-[0.24em] text-[#1200E2]">O caminho para bancar suas próprias escolhas é</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">Arquitetar a sua autonomia</h2>
-            <div className="mt-6 space-y-5 leading-relaxed text-black/70">
-              <p>
-                A autonomia feminina não é apenas uma conquista individual. É uma forma de transformar a realidade econômica,
-                profissional e social das mulheres.
-              </p>
-              <p>
-                Arquitetar a própria autonomia significa desenvolver recursos, conhecimentos, habilidades, independência
-                financeira e redes de apoio para ter liberdade de escolha e poder de decisão sobre a própria vida.
-              </p>
-              <p>
-                Mas por que isso é tão importante? Porque os dados mostram que ainda existem desigualdades estruturais que
-                limitam as possibilidades das mulheres.
-              </p>
+          <div className="flex flex-col justify-between gap-8 border-b border-border pb-10 sm:flex-row sm:items-end">
+            <div>
+              <p className="text-xs uppercase tracking-[0.24em] text-foreground">Coleções sazonais</p>
+              {loading ? (
+                <Skeleton className="mt-4 h-12 w-72" />
+              ) : (
+                <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
+                  {current?.name || 'Uma estação pensada'}
+                </h2>
+              )}
             </div>
+            <Button
+              asChild
+              size="lg"
+              onClick={pulseCta}
+              onMouseEnter={() => setCtaHover(true)}
+              onMouseLeave={() => setCtaHover(false)}
+              style={{
+                backgroundColor: ctaOn ? '#69FF01' : '#1200E2',
+                color: ctaOn ? '#1200E2' : '#FFFFFF',
+                animation: ctaOn ? 'amitse-zoom 0.9s ease-in-out' : undefined,
+              }}
+              className="w-fit rounded-full px-8 transition-colors duration-300 ease-out active:scale-95"
+            >
+              <a href="#aplicacao">
+                <ArrowDown /> Faça a sua Aplicação
+              </a>
+            </Button>
           </div>
-          <div className="mt-16 grid gap-10 sm:grid-cols-2">
-            {STATS.map((stat, index) => (
-              <Reveal key={stat.value} delay={index * 80}>
-                <div className="border-t border-black/10 pt-7">
-                  <p className="text-5xl font-semibold tracking-tight text-[#1200E2]">{stat.value}</p>
-                  <h3 className="mt-3 text-lg font-medium">{stat.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-black/65">{stat.text}</p>
-                </div>
+          {loading ? (
+            <div className="mt-10 grid gap-6 sm:grid-cols-3">
+              <Skeleton className="aspect-[4/5]" />
+              <Skeleton className="aspect-[4/5]" />
+              <Skeleton className="aspect-[4/5]" />
+            </div>
+          ) : current ? (
+            <>
+              <div className="mt-8 max-w-2xl text-muted-foreground">
+                <RichText html={description} />
+              </div>
+              <div className="mt-10 grid gap-x-6 sm:grid-cols-3">
+                {pieces.map((piece, index) => (
+                  <Reveal key={piece.id} delay={Math.min(index, 6) * 60}>
+                    <PieceCard piece={piece} index={index} />
+                  </Reveal>
+                ))}
+              </div>
+            </>
+          ) : (
+            <p className="mt-10 text-muted-foreground">A próxima coleção está tomando forma.</p>
+          )}
+        </div>
+      </section>
+
+      <section className="bg-muted py-20 sm:py-28">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="mb-10 flex items-end justify-between gap-6">
+            <div>
+              <p className="text-xs uppercase tracking-[0.24em] text-foreground">Os essenciais</p>
+              <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">Além da estação.</h2>
+            </div>
+            <Link
+              to="/essentials"
+              className="hidden text-sm font-medium text-foreground transition-colors hover:text-primary sm:flex sm:items-center sm:gap-2"
+            >
+              Ver todos <ArrowUpRight className="size-4" />
+            </Link>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {essentials.map((piece, index) => (
+              <Reveal key={piece.id} delay={Math.min(index, 6) * 60}>
+                <EssentialTile piece={piece} index={index} />
               </Reveal>
             ))}
           </div>
-          <p className="mt-12 max-w-3xl leading-relaxed text-black/70">
-            Acreditamos que cada mulher deve ter condições de determinar os próprios caminhos, sustentar suas escolhas e
-            construir um futuro que não esteja condicionado à dependência financeira, profissional ou pessoal de terceiros.
-          </p>
-          <p className="mt-4 max-w-3xl font-medium leading-relaxed text-black">
-            Porque autonomia não é apenas ter liberdade para escolher. É possuir recursos, conhecimento, segurança e poder
-            para fazer acontecer.
-          </p>
         </div>
       </section>
 
-      {/* 3. O que é a Âmitse + ODS */}
-      <section id="sobre" className="bg-[#f4f4fb] py-20 sm:py-28">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="grid gap-12 sm:grid-cols-2 sm:items-center">
-            <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-[#1200E2]">O que é a Âmitse</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
-                Arquitetar a própria autonomia e unir forças.
-              </h2>
-              <div className="mt-6 space-y-5 leading-relaxed text-black/70">
-                <p>
-                  Arquitetar a própria autonomia e unir forças com outras mulheres, fortalecendo umas às outras para
-                  transformar realidades, romper barreiras e construir novos futuros.
-                </p>
-                <p>
-                  Acreditamos que arquitetar a própria autonomia impulsiona a igualdade de gênero. Por isso, apoiamos mulheres
-                  a desenvolverem seu potencial, construírem ativos próprios, conquistarem independência financeira e
-                  assumirem o protagonismo de suas escolhas e trajetórias.
-                </p>
-                <p>
-                  Unimos tecnologia, autoliderança, individualidade e comunidade para que cada mulher assuma o comando da
-                  própria trajetória, construa sua independência financeira e desenvolva as condições necessárias para
-                  sustentar suas escolhas.
-                </p>
-                <p>
-                  Porque autonomia não é apenas poder escolher. É ter recursos, conhecimento e segurança para decidir o
-                  próprio caminho, sem precisar pedir permissão para isso.
-                </p>
-              </div>
-            </div>
-            <img
-              src={photoCar}
-              alt="Mulher sorridente sentada ao volante de um carro, com roupa executiva"
-              className="aspect-[4/5] w-full object-cover"
-            />
-          </div>
-
-          <div className="mt-16 grid gap-10 border-t border-black/10 pt-12 sm:grid-cols-[200px_1fr] sm:items-start">
-            <img src={photoOds} alt="Logo do ODS 5, Igualdade de gênero" className="w-full max-w-[200px]" />
-            <div>
-              <p className="text-sm font-medium text-[#1200E2]">
-                ODS 5 · Alcançar a igualdade de gênero e empoderar todas as mulheres e meninas
-              </p>
-              <p className="mt-4 text-sm font-medium leading-relaxed text-black">
-                Meta 5.b: Aumentar o uso de tecnologias para promover o empoderamento das mulheres
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-black/70">
-                A Âmitse oferece às mulheres ferramentas profissionais e pessoais para construir caminhos de autonomia.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Como funciona */}
-      <section id="como-funciona" className="py-20 sm:py-28">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 sm:grid-cols-2 sm:items-center">
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-[#1200E2]">Como funciona</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">Do cadastro à sua primeira semana como membra.</h2>
-            <ol className="mt-10 space-y-6">
-              {STEPS.map((step, index) => (
-                <li key={step.title} className="flex gap-5 border-t border-black/10 pt-5">
-                  <p className="w-8 shrink-0 text-sm font-medium text-[#1200E2]">0{index + 1}</p>
-                  <div>
-                    <h3 className="font-medium">{step.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-black/65">{step.text}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-          <img
-            src={photoBoard}
-            alt="Equipe reunida em uma mesa estruturando uma marca sustentável"
-            className="aspect-[4/5] w-full object-cover"
-          />
-        </div>
-      </section>
-
-      {/* 5. O que você recebe */}
-      <section className="bg-[#1200E2] py-20 text-white sm:py-28">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="grid gap-12 sm:grid-cols-2 sm:items-center">
-            <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-[#69FF01]">O que você recebe</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
-                O app facilita. O pertencimento é o produto.
-              </h2>
-              <div className="mt-10 grid gap-0 sm:grid-cols-2">
-                {RECEIVES.map((item) => (
-                  <div key={item.title} className="border-t border-white/25 py-6 pr-6">
-                    <h3 className="font-medium">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-white/75">{item.text}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <img
-              src={photoApp}
-              alt="Tela inicial do app Âmitse com a trilha de autoliderança"
-              className="mx-auto w-full max-w-sm object-contain"
-            />
-          </div>
-          <img
-            src={photoCircle}
-            alt="Grupo de mulheres conversando em círculo"
-            className="mt-16 aspect-[16/9] w-full object-cover"
-          />
-        </div>
-      </section>
-
-      {/* 6. Manifesto */}
       <section className="py-20 sm:py-28">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 sm:grid-cols-2">
-          <img
-            src={photoDinner}
-            alt="Cinco mulheres conversando à mesa de um jantar"
-            className="aspect-[4/3] w-full object-cover"
-          />
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-[#1200E2]">Manifesto</p>
-            <p className="mt-6 text-2xl leading-snug tracking-tight sm:text-3xl">
-              Mulher, o seu maior poder é bancar suas próprias escolhas. A autonomia se arquiteta, não se espera.
-            </p>
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="max-w-xl">
+            <p className="text-xs uppercase tracking-[0.24em] text-primary">Nossos compromissos</p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">Nada escondido no processo.</h2>
+          </div>
+          <div className="mt-14 grid gap-0 sm:grid-cols-3">
+            {pillars.slice(0, 3).map((pillar, index) => (
+              <div key={pillar.id} className={`border-t border-border py-7 sm:px-6 ${index === 0 ? 'sm:pl-0' : ''}`}>
+                <Icon name={pillar.icon || 'Circle'} className="size-5 text-primary" />
+                <p className="mt-8 text-3xl font-medium tracking-tight text-primary">{pillar.metric}</p>
+                <h3 className="mt-3 text-lg font-medium">{pillar.title}</h3>
+                <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">{pillar.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 7. Formulário de aplicação */}
       <section id="aplicacao" className="bg-[#090079] py-20 text-white sm:py-24">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 sm:grid-cols-2">
+        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Mulher, o seu maior poder é bancar suas próprias escolhas.</h2>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70">
-              Preencha os dados abaixo para se inscrever na Lista de Espera. Cada aplicação é analisada pelo time Âmitse, e o
-              resultado chega no seu e-mail.
+            <h2 className="max-w-lg text-3xl font-semibold tracking-tight sm:text-4xl">
+              Um guarda-roupa mais quieto, no seu e-mail.
+            </h2>
+            <p className="mt-4 text-sm text-primary-foreground/70">
+              Receba antes os novos lançamentos e as notas do ateliê.
             </p>
           </div>
-          <div className="w-full max-w-md rounded-2xl bg-white p-8 text-[#090079]">
-            {sent ? (
-              <div className="flex items-center gap-3 text-sm">
-                <Check className="size-4" /> Recebemos a sua aplicação. Em breve você terá a devolutiva no seu e-mail.
+          <div className="w-full max-w-md">
+            {subscribed ? (
+              <div className="flex items-center gap-3 border-b border-primary-foreground/40 pb-3 text-sm">
+                <Check className="size-4" /> Pronto, você está na lista. Obrigado.
               </div>
             ) : (
-              <form onSubmit={submitApplication} noValidate className="space-y-7">
-                <p className="text-sm">
-                  <span className="font-semibold">Preencha os dados abaixo</span> para se inscrever na Lista de Espera:
-                </p>
-                <div>
-                  <input
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                    placeholder="Nome completo"
-                    aria-label="Nome completo"
-                    className={inputClass}
-                  />
-                  {errors.name && <p className="mt-2 text-xs text-red-600">{errors.name}</p>}
-                </div>
-                <div>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder="E-mail"
-                    aria-label="E-mail"
-                    className={inputClass}
-                  />
-                  {errors.email && <p className="mt-2 text-xs text-red-600">{errors.email}</p>}
-                </div>
-                <div>
-                  <input
-                    type="tel"
-                    value={whatsapp}
-                    onChange={(event) => setWhatsapp(event.target.value)}
-                    placeholder="WhatsApp com DDD"
-                    aria-label="WhatsApp com DDD"
-                    className={inputClass}
-                  />
-                  {errors.whatsapp && <p className="mt-2 text-xs text-red-600">{errors.whatsapp}</p>}
-                </div>
-                <div>
-                  <label className="flex items-start gap-3 text-sm leading-relaxed">
-                    <input
-                      type="checkbox"
-                      checked={consent}
-                      onChange={(event) => setConsent(event.target.checked)}
-                      className="mt-1 size-4 shrink-0 accent-[#1200E2]"
+              <form onSubmit={subscribe} noValidate>
+                <Field error={emailError}>
+                  <div className="flex items-center gap-3 border-b border-primary-foreground/40 pb-2">
+                    <Mail className="size-4 shrink-0 text-primary-foreground/60" />
+                    <Input
+                      type="email"
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      placeholder="Seu e-mail"
+                      aria-label="Seu e-mail"
+                      className="border-0 bg-transparent px-0 text-primary-foreground placeholder:text-primary-foreground/50 focus-visible:ring-0"
                     />
-                    <span>
-                      Li e aceito a{' '}
-                      <Link to="/privacidade" className="underline underline-offset-4">
-                        política de privacidade
-                      </Link>
-                      . Entendo que a data e a hora deste aceite ficam registradas.
-                    </span>
-                  </label>
-                  {errors.consent && <p className="mt-2 text-xs text-red-600">{errors.consent}</p>}
-                </div>
-                <div className="text-center">
-                  <Button
-                    type="submit"
-                    disabled={submitting}
-                    className="rounded-full border-2 border-[#1200E2] bg-white px-8 text-[#1200E2] hover:bg-[#1200E2] hover:text-white"
-                  >
-                    {submitting ? 'Enviando…' : 'Quero Arquitetar a minha Autonomia'}
-                  </Button>
-                </div>
+                    <Button type="submit" variant="secondary" disabled={submitting} className="shrink-0 rounded-full">
+                      {submitting ? 'Assinando…' : 'Assinar'}
+                    </Button>
+                  </div>
+                </Field>
               </form>
             )}
           </div>
