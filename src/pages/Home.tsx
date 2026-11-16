@@ -212,7 +212,7 @@ export default function Home() {
   return (
     <div>
       <section
-        className="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden text-white"
+        className="relative flex items-center overflow-hidden text-white md:min-h-[calc(100svh-4rem)]"
         style={{ backgroundColor: '#0b1a3f' }}
       >
         <div className="absolute inset-0 overflow-hidden">
@@ -231,7 +231,7 @@ export default function Home() {
             style={{ background: 'linear-gradient(to top, rgba(11,26,63,0.95) 0%, rgba(11,26,63,0) 40%)' }}
           />
         </div>
-        <div className="relative mx-auto w-full max-w-[1280px] px-6 py-16 md:px-10 md:py-20 min-[1200px]:px-20 min-[1200px]:py-24">
+        <div className="relative mx-auto w-full max-w-[1280px] px-6 pb-12 pt-16 md:px-10 md:py-20 min-[1200px]:px-20 min-[1200px]:py-24">
           <div className="max-w-none md:max-w-[500px] min-[1200px]:max-w-[560px]">
             <span aria-hidden="true" className="block h-[3px] w-10 rounded-full bg-[#a4ff0e] md:w-12 min-[1200px]:w-14" />
             <p className="mt-3 text-[11px] font-semibold uppercase leading-[1.4] tracking-[0.12em] text-white/90 md:mt-[14px] md:text-[13px] md:tracking-[0.16em] min-[1200px]:mt-4 min-[1200px]:text-[14px] min-[1200px]:tracking-[0.22em]">
