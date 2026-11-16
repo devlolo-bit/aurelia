@@ -11,7 +11,7 @@ import {
   photoDinner,
   photoOds,
   photoWine,
-} from '@/lib/amitse-photos';
+} from '@/lib/amitse-images';
 import { Button } from '@/components/ui/button';
 import { collection } from '@/lib/fab-client';
 import { toast } from '@/components/ui/sonner';
@@ -192,10 +192,8 @@ export default function Home() {
       <section className="py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-3xl">
-            <p className="text-xs uppercase tracking-[0.24em] text-[#1200E2]">Por que arquitetar a própria autonomia?</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
-              Uma conquista individual que transforma a realidade de todas.
-            </h2>
+            <p className="text-xs uppercase tracking-[0.24em] text-[#1200E2]">O caminho para bancar suas próprias escolhas é</p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">Arquitetar a sua autonomia</h2>
             <div className="mt-6 space-y-5 leading-relaxed text-black/70">
               <p>
                 A autonomia feminina não é apenas uma conquista individual. É uma forma de transformar a realidade econômica,
