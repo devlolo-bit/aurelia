@@ -216,7 +216,7 @@ export default function Home() {
         className="relative flex items-center overflow-hidden text-white md:min-h-[calc(100svh-4rem)]"
         style={{ backgroundColor: '#0b1a3f' }}
       >
-        <div className="absolute inset-x-0 top-0 h-[480px] overflow-hidden md:inset-0 md:h-auto">
+        <div className="absolute inset-x-0 top-0 h-[520px] overflow-hidden md:inset-0 md:h-auto">
           <img
             src={amitseHero}
             alt="Mulher de terno azul-marinho em um escritório sereno"
