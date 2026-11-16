@@ -97,18 +97,40 @@ function EssentialTile({ piece, index }: { piece: Piece; index: number }) {
   );
 }
 
-export default function Home() {
-  const [ctaPulse, setCtaPulse] = useState(false);
-  const [ctaHover, setCtaHover] = useState(false);
-  const ctaOn = ctaPulse || ctaHover;
+function AppCta({ className = '' }: { className?: string }) {
+  const [pulse, setPulse] = useState(false);
+  const [hover, setHover] = useState(false);
+  const on = pulse || hover;
   function pulseCta(event: { preventDefault: () => void }) {
     event.preventDefault();
-    setCtaPulse(true);
+    setPulse(true);
     window.setTimeout(() => {
-      setCtaPulse(false);
+      setPulse(false);
       document.getElementById('aplicacao')?.scrollIntoView({ behavior: 'smooth' });
     }, 900);
   }
+  return (
+    <Button
+      asChild
+      size="lg"
+      onClick={pulseCta}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        backgroundColor: on ? '#69FF01' : '#1200E2',
+        color: on ? '#1200E2' : '#FFFFFF',
+        animation: on ? 'amitse-zoom 0.9s ease-in-out' : undefined,
+      }}
+      className={`rounded-full px-8 transition-colors duration-300 ease-out active:scale-95 ${className}`}
+    >
+      <a href="#aplicacao">
+        <ArrowDown /> Faça a sua Aplicação
+      </a>
+    </Button>
+  );
+}
+
+export default function Home() {
 
   const [heroScroll, setHeroScroll] = useState(0);
   const heroViewH = typeof window !== 'undefined' ? window.innerHeight - 64 : 800;
@@ -218,23 +240,7 @@ export default function Home() {
             Afinal, seu maior poder é bancar as suas escolhas!
           </p>
           <div className="mt-16">
-            <Button
-              asChild
-              size="lg"
-              onClick={pulseCta}
-              onMouseEnter={() => setCtaHover(true)}
-              onMouseLeave={() => setCtaHover(false)}
-              style={{
-                backgroundColor: ctaOn ? '#69FF01' : '#1200E2',
-                color: ctaOn ? '#1200E2' : '#FFFFFF',
-                animation: ctaOn ? 'amitse-zoom 0.9s ease-in-out' : undefined,
-              }}
-              className="rounded-full px-8 transition-colors duration-300 ease-out active:scale-95"
-            >
-              <a href="#aplicacao">
-                <ArrowDown /> Faça a sua Aplicação
-              </a>
-            </Button>
+            <AppCta />
           </div>
         </div>
       </section>
@@ -252,23 +258,7 @@ export default function Home() {
                 </h2>
               )}
             </div>
-            <Button
-              asChild
-              size="lg"
-              onClick={pulseCta}
-              onMouseEnter={() => setCtaHover(true)}
-              onMouseLeave={() => setCtaHover(false)}
-              style={{
-                backgroundColor: ctaOn ? '#69FF01' : '#1200E2',
-                color: ctaOn ? '#1200E2' : '#FFFFFF',
-                animation: ctaOn ? 'amitse-zoom 0.9s ease-in-out' : undefined,
-              }}
-              className="w-fit rounded-full px-8 transition-colors duration-300 ease-out active:scale-95"
-            >
-              <a href="#aplicacao">
-                <ArrowDown /> Faça a sua Aplicação
-              </a>
-            </Button>
+            <AppCta className="w-fit" />
           </div>
           {loading ? (
             <div className="mt-10 grid gap-6 sm:grid-cols-3">
