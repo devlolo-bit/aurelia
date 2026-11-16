@@ -233,13 +233,14 @@ export default function Home() {
           <p className="text-xs uppercase tracking-[0.28em] text-primary-foreground/75">
             Mulher, você merece viver com mais
           </p>
-          <h1 className="mt-6 max-w-4xl text-balance text-5xl font-semibold leading-[0.95] tracking-[-0.04em] sm:text-7xl lg:text-8xl">
+          <h1 className="mt-3 max-w-4xl text-balance text-5xl font-semibold leading-[0.95] tracking-[-0.04em] sm:text-7xl lg:text-8xl">
             Autonomia.
           </h1>
-          <p className="mt-7 max-w-md text-base leading-relaxed text-primary-foreground/80 sm:text-lg">
+          <span aria-hidden="true" className="mt-6 block h-[2px] w-full max-w-3xl rounded-full bg-[#a4ff0e]" />
+          <p className="mt-6 max-w-md text-base leading-relaxed text-primary-foreground/80 sm:text-lg">
             Afinal, seu maior poder é bancar as suas escolhas!
           </p>
-          <div className="mt-16">
+          <div className="mt-8">
             <AppCta />
           </div>
         </div>
