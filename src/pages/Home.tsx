@@ -241,7 +241,7 @@ export default function Home() {
           <div className="max-w-none md:max-w-[500px] min-[1200px]:max-w-[560px]">
             <div className="flex min-h-[460px] flex-col justify-end md:block md:min-h-0">
               <span aria-hidden="true" className="block h-[3px] w-10 rounded-full bg-[#a4ff0e] md:w-12 min-[1200px]:w-14" />
-              <p className="mt-3 text-[11px] font-semibold uppercase leading-[1.4] tracking-[0.12em] text-white/90 md:mt-[14px] md:text-[13px] md:tracking-[0.16em] min-[1200px]:mt-4 min-[1200px]:text-[14px] min-[1200px]:tracking-[0.22em]">
+              <p className="mt-3 text-[11px] font-semibold uppercase leading-[1.4] tracking-[0.12em] text-white/90 md:mt-[14px] md:text-[13px] md:tracking-[0.16em] min-[1200px]:mt-4 min-[1024px]:text-[15px] min-[1024px]:tracking-[0.26em]">
                 Mulher, você merece viver com mais
               </p>
               <h1 className="mt-[14px] whitespace-nowrap text-[clamp(44px,13vw,52px)] font-extrabold leading-[0.98] tracking-[-0.035em] text-white md:mt-[18px] md:text-[clamp(64px,8vw,72px)] min-[1200px]:mt-5 min-[1200px]:text-[clamp(72px,6vw,92px)]">
@@ -249,7 +249,7 @@ export default function Home() {
               </h1>
             </div>
             <div className="pt-[22px] md:pt-0">
-              <p className="mt-0 w-full max-w-none whitespace-nowrap text-[clamp(15px,4.4vw,18px)] font-normal leading-[1.4] text-white/90 md:mt-6 md:max-w-[460px] md:text-[19px] min-[1200px]:mt-8 min-[1200px]:max-w-[560px] min-[1200px]:text-[23px]">
+              <p className="mt-0 w-full max-w-none whitespace-nowrap text-[clamp(15px,4.4vw,18px)] font-normal leading-[1.4] text-white/90 md:mt-6 md:max-w-[460px] md:text-[19px] min-[1200px]:mt-8 min-[1200px]:max-w-[560px] min-[1024px]:text-[23px] min-[1024px]:-translate-y-[10px]">
                 Bancar as próprias escolhas é poder!
               </p>
               <div className="mt-7 min-[1200px]:mt-8">
