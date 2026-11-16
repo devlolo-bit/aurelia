@@ -11,7 +11,7 @@ import {
   photoDinner,
   photoOds,
   photoWine,
-} from '@/lib/amitse-images';
+} from '@/lib/amitse-photos';
 import { Button } from '@/components/ui/button';
 import { collection } from '@/lib/fab-client';
 import { toast } from '@/components/ui/sonner';
@@ -185,16 +185,6 @@ export default function Home() {
               </a>
             </Button>
           </div>
-        </div>
-      </section>
-
-      {/* 1b. Chamada no estilo Studio */}
-      <section className="bg-[#fcf6fa] py-24 text-[#1f1025] sm:py-32">
-        <div className="mx-auto max-w-6xl px-6">
-          <p className="text-xs uppercase tracking-[0.24em] text-[#1f1025]/80">
-            O caminho para bancar suas próprias escolhas é
-          </p>
-          <h2 className="mt-5 text-5xl font-semibold tracking-[-0.03em] sm:text-7xl">Arquitetar a sua autonomia</h2>
         </div>
       </section>
 
