@@ -216,7 +216,7 @@ export default function Home() {
         className="relative flex items-center overflow-hidden text-white md:min-h-[calc(100svh-4rem)]"
         style={{ backgroundColor: '#0b1a3f' }}
       >
-        <div className="absolute inset-x-0 top-0 h-[460px] overflow-hidden md:inset-0 md:h-auto">
+        <div className="absolute inset-x-0 top-0 h-[480px] overflow-hidden md:inset-0 md:h-auto">
           <img
             src={amitseHero}
             alt="Mulher de terno azul-marinho em um escritório sereno"
@@ -237,18 +237,18 @@ export default function Home() {
             style={{ background: 'linear-gradient(to bottom, rgba(12,25,57,0) 0%, rgba(12,25,57,0.65) 55%, #0c1939 100%)' }}
           />
         </div>
-        <div className="relative mx-auto w-full max-w-[1280px] px-6 pb-12 md:px-10 md:py-20 min-[1200px]:px-20 min-[1200px]:py-24">
+        <div className="relative mx-auto w-full max-w-[1280px] px-6 pb-10 md:px-10 md:py-20 min-[1200px]:px-20 min-[1200px]:py-24">
           <div className="max-w-none md:max-w-[500px] min-[1200px]:max-w-[560px]">
-            <div className="flex h-[460px] flex-col justify-end pb-6 md:block md:h-auto md:pb-0">
+            <div className="flex min-h-[460px] flex-col justify-end md:block md:min-h-0">
               <span aria-hidden="true" className="block h-[3px] w-10 rounded-full bg-[#a4ff0e] md:w-12 min-[1200px]:w-14" />
               <p className="mt-3 text-[11px] font-semibold uppercase leading-[1.4] tracking-[0.12em] text-white/90 md:mt-[14px] md:text-[13px] md:tracking-[0.16em] min-[1200px]:mt-4 min-[1200px]:text-[14px] min-[1200px]:tracking-[0.22em]">
                 Mulher, você merece viver com mais
               </p>
-              <h1 className="mt-4 whitespace-nowrap text-[clamp(44px,13vw,52px)] font-extrabold leading-[0.98] tracking-[-0.035em] text-white md:mt-[18px] md:text-[clamp(64px,8vw,72px)] min-[1200px]:mt-5 min-[1200px]:text-[clamp(72px,6vw,92px)]">
+              <h1 className="mt-[14px] whitespace-nowrap text-[clamp(44px,13vw,52px)] font-extrabold leading-[0.98] tracking-[-0.035em] text-white md:mt-[18px] md:text-[clamp(64px,8vw,72px)] min-[1200px]:mt-5 min-[1200px]:text-[clamp(72px,6vw,92px)]">
                 Autonomia.
               </h1>
             </div>
-            <div className="pt-7 md:pt-0">
+            <div className="pt-6 md:pt-0">
               <p className="mt-0 max-w-[330px] text-[18px] font-normal leading-[1.4] text-white/90 md:mt-6 md:max-w-[460px] md:text-[19px] min-[1200px]:mt-8 min-[1200px]:max-w-[540px] min-[1200px]:text-[20px] min-[1200px]:whitespace-nowrap">
                 Afinal, seu maior poder é{' '}
                 <br className="min-[1200px]:hidden" />
