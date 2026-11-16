@@ -138,7 +138,8 @@ export default function Home() {
   const heroViewH = typeof window !== 'undefined' ? window.innerHeight - 64 : 800;
   const heroImgH = (typeof window !== 'undefined' ? window.innerWidth : 1280) * (2 / 3);
   const heroMaxOffset = Math.max(0, heroImgH - heroViewH);
-  const heroOffset = Math.min(heroScroll * 0.5, heroMaxOffset);
+  const heroOffset =
+    typeof window !== 'undefined' && window.innerWidth < 768 ? 0 : Math.min(heroScroll * 0.5, heroMaxOffset);
   useEffect(() => {
     const onScroll = () => setHeroScroll(window.scrollY);
     onScroll();
@@ -215,11 +216,11 @@ export default function Home() {
         className="relative flex items-center overflow-hidden text-white md:min-h-[calc(100svh-4rem)]"
         style={{ backgroundColor: '#0b1a3f' }}
       >
-        <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-[460px] overflow-hidden md:inset-0 md:h-auto">
           <img
             src={amitseHero}
             alt="Mulher de terno azul-marinho em um escritório sereno"
-            className="absolute left-0 top-0 h-auto w-full max-w-none will-change-transform"
+            className="absolute left-0 top-0 h-full w-full max-w-none object-cover object-[50%_20%] will-change-transform md:h-auto"
             style={{ transform: `translate3d(0, ${-heroOffset}px, 0)` }}
           />
           <div
@@ -230,23 +231,35 @@ export default function Home() {
             className="absolute inset-0"
             style={{ background: 'linear-gradient(to top, rgba(11,26,63,0.95) 0%, rgba(11,26,63,0) 40%)' }}
           />
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 bottom-0 h-[100px] md:hidden"
+            style={{ background: 'linear-gradient(to bottom, rgba(12,25,57,0) 0%, rgba(12,25,57,0.65) 55%, #0c1939 100%)' }}
+          />
         </div>
-        <div className="relative mx-auto w-full max-w-[1280px] px-6 pb-12 pt-16 md:px-10 md:py-20 min-[1200px]:px-20 min-[1200px]:py-24">
+        <div className="relative mx-auto w-full max-w-[1280px] px-6 pb-12 md:px-10 md:py-20 min-[1200px]:px-20 min-[1200px]:py-24">
           <div className="max-w-none md:max-w-[500px] min-[1200px]:max-w-[560px]">
-            <span aria-hidden="true" className="block h-[3px] w-10 rounded-full bg-[#a4ff0e] md:w-12 min-[1200px]:w-14" />
-            <p className="mt-3 text-[11px] font-semibold uppercase leading-[1.4] tracking-[0.12em] text-white/90 md:mt-[14px] md:text-[13px] md:tracking-[0.16em] min-[1200px]:mt-4 min-[1200px]:text-[14px] min-[1200px]:tracking-[0.22em]">
-              Mulher, você merece viver com mais
-            </p>
-            <h1 className="mt-4 whitespace-nowrap text-[clamp(44px,13vw,52px)] font-extrabold leading-[0.98] tracking-[-0.035em] text-white md:mt-[18px] md:text-[clamp(64px,8vw,72px)] min-[1200px]:mt-5 min-[1200px]:text-[clamp(72px,6vw,92px)]">
-              Autonomia.
-            </h1>
-            <p className="mt-6 max-w-[330px] text-[18px] font-normal leading-[1.4] text-white/90 md:mt-6 md:max-w-[460px] md:text-[19px] min-[1200px]:mt-8 min-[1200px]:max-w-[540px] min-[1200px]:text-[20px] min-[1200px]:whitespace-nowrap">
-              Afinal, seu maior poder é{' '}
-              <br className="min-[1200px]:hidden" />
-              bancar as suas escolhas!
-            </p>
-            <div className="mt-7 md:mt-7 min-[1200px]:mt-8">
-              <AppCta className="h-[56px] w-full justify-center rounded-[18px] px-5 text-[16px] font-bold md:h-[52px] md:w-auto md:px-[26px] min-[1200px]:px-[26px]" />
+            <div className="flex h-[460px] flex-col justify-end pb-6 md:block md:h-auto md:pb-0">
+              <span aria-hidden="true" className="block h-[3px] w-10 rounded-full bg-[#a4ff0e] md:w-12 min-[1200px]:w-14" />
+              <p className="mt-3 text-[11px] font-semibold uppercase leading-[1.4] tracking-[0.12em] text-white/90 md:mt-[14px] md:text-[13px] md:tracking-[0.16em] min-[1200px]:mt-4 min-[1200px]:text-[14px] min-[1200px]:tracking-[0.22em]">
+                Mulher, você merece viver com mais
+              </p>
+              <h1 className="mt-4 whitespace-nowrap text-[clamp(44px,13vw,52px)] font-extrabold leading-[0.98] tracking-[-0.035em] text-white md:mt-[18px] md:text-[clamp(64px,8vw,72px)] min-[1200px]:mt-5 min-[1200px]:text-[clamp(72px,6vw,92px)]">
+                Autonomia.
+              </h1>
+            </div>
+            <div className="pt-7 md:pt-0">
+              <p className="mt-0 max-w-[330px] text-[18px] font-normal leading-[1.4] text-white/90 md:mt-6 md:max-w-[460px] md:text-[19px] min-[1200px]:mt-8 min-[1200px]:max-w-[540px] min-[1200px]:text-[20px] min-[1200px]:whitespace-nowrap">
+                Afinal, seu maior poder é{' '}
+                <br className="min-[1200px]:hidden" />
+                bancar as suas escolhas!
+              </p>
+              <div className="mt-7 min-[1200px]:mt-8">
+                <AppCta className="h-[56px] w-full justify-center rounded-[18px] px-5 text-[16px] font-bold md:h-[52px] md:w-auto md:px-[26px] min-[1200px]:px-[26px]" />
+              </div>
+              <p className="mx-auto mt-3 max-w-[300px] text-center text-[12px] leading-[1.4] text-white/75 md:hidden">
+                Para mulheres que desejam ampliar sua autonomia pessoal e profissional.
+              </p>
             </div>
           </div>
         </div>
